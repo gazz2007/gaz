@@ -1,14 +1,14 @@
     public class Product {
-        private String name;
-        private int price, quantity;
-        private int barcode;
-        private String brand;
-        private int daysLeft;
+        protected String name;
+        protected int price, quantity;
+        protected int barcode;
+        protected String brand;
+        protected int daysLeft;
 
         public Product(String name, int price, int quantity, int barcode, String brand, int daysLeft) {
-            this.name = name;
-            this.price = price;
-            this.quantity = quantity;
+            setName(name);
+            setPrice(price);
+            setQuantity(quantity);
             this.barcode = barcode;
             this.brand = brand;
             this.daysLeft = daysLeft;
@@ -36,15 +36,28 @@
         }
 
         public void setQuantity(int quantity) {
-            this.quantity = quantity;
+            if (quantity>=0) {
+                this.quantity = quantity;
+            }else{
+                System.out.println("Quantity must be greater than zero");
+            }
         }
 
         public void setPrice(int price) {
-            this.price = price;
+            if (price>=0) {
+                this.price = price;
+            }else{
+                System.out.println("Price must be greater than zero");
+            }
         }
 
         public void setName(String name) {
-            this.name = name;
+            if(name!=null&&!name.trim().isEmpty()){
+                this.name = name;
+            }
+            else{
+                System.out.println("Name cannot be empty");
+            }
         }
 
         public int getDaysLeft() {
@@ -89,6 +102,13 @@
         public boolean checkQuantity(){
             return quantity<10;
         }
+        public void productName(){
+            System.out.println(name+" is now ready in order to deliver to storage\uD83D\uDE9A");
+        }
+        public void productVerification(){
+            System.out.println(name+ " is being verified⏳ ");
+        }
+
         @Override
         public String toString() {
             return "Product{" +
