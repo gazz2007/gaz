@@ -36,7 +36,7 @@
         }
 
         public void setQuantity(int quantity) {
-            if (quantity>=0) {
+            if (quantity>0) {
                 this.quantity = quantity;
             }else{
                 System.out.println("Quantity must be greater than zero");
@@ -44,7 +44,7 @@
         }
 
         public void setPrice(int price) {
-            if (price>=0) {
+            if (price>0) {
                 this.price = price;
             }else{
                 System.out.println("Price must be greater than zero");
