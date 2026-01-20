@@ -1,3 +1,5 @@
+package Model;
+
 public class Order {
     private int orderId;
     private String customerName;
@@ -14,7 +16,7 @@ public class Order {
             this.orderId = orderId;
         }
         else {
-            System.out.println("Invalid Order ID");
+            System.out.println("Invalid Model.Order ID");
         }
     }
 
@@ -23,7 +25,7 @@ public class Order {
             this.customerName = customerName;
         }
         else {
-            System.out.println("Invalid Customer Name");
+            System.out.println("Invalid Model.Customer Name");
         }
     }
 
@@ -63,7 +65,7 @@ public class Order {
     }
     @Override
     public String toString() {
-        return "Order{" +
+        return "Model.Order{" +
                 "orderId=" + orderId +
                 ", customerName='" + customerName + '\'' +
                 ", totalAmount=" + totalAmount +

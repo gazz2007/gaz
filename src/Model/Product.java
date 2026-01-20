@@ -1,4 +1,6 @@
-    public class Product {
+package Model;
+
+public abstract class Product {
         protected String name;
         protected int price, quantity;
         protected int barcode;
@@ -24,7 +26,11 @@
         }
 
         public void setDaysLeft(int daysLeft) {
-            this.daysLeft = daysLeft;
+            if (daysLeft < 0){
+                throw new IllegalArgumentException("Days left can't be negative");}
+            else{
+                this.daysLeft = daysLeft;
+            }
         }
 
         public void setBrand(String brand) {
@@ -35,11 +41,11 @@
             this.barcode = barcode;
         }
 
-        public void setQuantity(int quantity) {
+        public  void setQuantity(int quantity) {
             if (quantity>0) {
                 this.quantity = quantity;
             }else{
-                System.out.println("Quantity must be greater than zero");
+                throw new IllegalArgumentException("Quantity can't be negative");
             }
         }
 
@@ -102,16 +108,19 @@
         public boolean checkQuantity(){
             return quantity<10;
         }
-        public void productName(){
+        public  void productName(){
             System.out.println(name+" is now ready in order to deliver to storage\uD83D\uDE9A");
         }
-        public void productVerification(){
+        public abstract String getProductType();
+        public abstract boolean isProductBig();
+
+        public  void productVerification(){
             System.out.println(name+ " is being verified⏳ ");
         }
 
         @Override
         public String toString() {
-            return "Product{" +
+            return "Model.Product{" +
                     "name='" + name + '\'' +
                     ", price=" + price +
                     ", quantity=" + quantity +

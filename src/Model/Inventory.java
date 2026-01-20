@@ -1,3 +1,5 @@
+package Model;
+
 public class Inventory {
     private int maxCapacity;
     private int currentStock;
@@ -80,7 +82,7 @@ public class Inventory {
 
     @Override
     public String toString() {
-        return "Inventory{" +
+        return "Model.Inventory{" +
                 "maxCapacity=" + maxCapacity +
                 ", currentStock=" + currentStock +
                 ", quantity=" + quantity +

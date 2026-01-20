@@ -1,3 +1,5 @@
+package Model;
+
 public class FreshProduct extends Product {
     private boolean isRipe;
     private boolean isOrganicProduct;
@@ -13,15 +15,26 @@ public class FreshProduct extends Product {
     }
 
     public boolean getOrganicProduct() {
+
         return isOrganicProduct;
     }
 
     public void setRipe(boolean isRipe) {
+
         this.isRipe = isRipe;
     }
 
     public void setOrganicProduct(boolean isOrganicProduct) {
+
         this.isOrganicProduct = isOrganicProduct;
+    }
+    @Override
+    public String getProductType() {
+        return "FreshProduct";
+    }
+    @Override
+    public boolean isProductBig() {
+        return false;
     }
 
     @Override

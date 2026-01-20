@@ -1,8 +1,10 @@
+package Model;
+
 public class Customer {
-    private int customerId;
-    private String name;
-    private String phoneNumber;
-    private int loyaltyPoints;
+    protected int customerId;
+    protected String name;
+    protected String phoneNumber;
+    protected int loyaltyPoints;
 
     public Customer(int customerId, String name, String phoneNumber, int loyaltyPoints) {
         this.customerId = customerId;
@@ -51,7 +53,7 @@ public class Customer {
     }
     @Override
     public String toString() {
-        return "Customer{" +
+        return "Model.Customer{" +
                 "customerId=" + customerId +
                 ", name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +

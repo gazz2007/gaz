@@ -1,3 +1,5 @@
+package Model;
+
 public class FrozenProduct extends Product {
     private int temperature;
     private boolean isFrozen;
@@ -29,6 +31,17 @@ public class FrozenProduct extends Product {
             System.out.println(name+ "'s temperature status is "+isFrozen+"✅❄\uFE0F. "+"Success now you can pick up the "+name+"!");
         }
     }
+
+    @Override
+    public String getProductType() {
+        return "FrozenProduct";
+    }
+
+    @Override
+    public boolean isProductBig() {
+        return true;
+    }
+
     @Override
     public void productVerification(){
         if(temperature<-10){

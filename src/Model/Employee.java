@@ -1,4 +1,6 @@
-public class Employee {
+package Model;
+
+public class Employee implements Upgradable {
     private String employeeName;
     private int employeeID;
     private int employeeAge;
@@ -22,6 +24,15 @@ public class Employee {
         this.employeeSalary = 0;
         this.employeeEmail = "Unknown";
         this.employeeWorkExperience = 0;
+    }
+    @Override
+    public void upgrade() {
+        System.out.println(employeeName+ "is upgrading");
+    }
+
+    @Override
+    public boolean canUpgrade() {
+        return true;
     }
 
     public int getEmployeeWorkExperience() {
@@ -80,7 +91,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee{" +
+        return "Model.Employee{" +
                 "employeeName='" + employeeName + '\'' +
                 ", employeeID=" + employeeID +
                 ", employeeAge=" + employeeAge +
