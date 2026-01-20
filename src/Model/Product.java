@@ -33,13 +33,19 @@ public abstract class Product {
             }
         }
 
-        public void setBrand(String brand) {
-            this.brand = brand;
+    public void setBrand(String brand) {
+        if (brand == null || brand.trim().isEmpty()) {
+            throw new IllegalArgumentException("Brand cannot be empty");
         }
+        this.brand = brand;
+    }
 
-        public void setBarcode(int barcode) {
-            this.barcode = barcode;
+    public void setBarcode(int barcode) {
+        if (barcode <= 0) {
+            throw new IllegalArgumentException("Barcode must be positive");
         }
+        this.barcode = barcode;
+    }
 
         public  void setQuantity(int quantity) {
             if (quantity>0) {
@@ -53,7 +59,7 @@ public abstract class Product {
             if (price>0) {
                 this.price = price;
             }else{
-                System.out.println("Price must be greater than zero");
+                throw new IllegalArgumentException("Price can't be negative");
             }
         }
 
@@ -62,7 +68,7 @@ public abstract class Product {
                 this.name = name;
             }
             else{
-                System.out.println("Name cannot be empty");
+                throw new IllegalArgumentException("Name can't be empty");
             }
         }
 

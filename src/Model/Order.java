@@ -16,16 +16,16 @@ public class Order {
             this.orderId = orderId;
         }
         else {
-            System.out.println("Invalid Model.Order ID");
+            throw new IllegalArgumentException("Order ID must be greater than zero");
         }
     }
 
     public void setCustomerName(String customerName) {
         if(customerName != null&&customerName.trim().isEmpty()) {
-            this.customerName = customerName;
+            throw new IllegalArgumentException("Customer Name cannot be empty");
         }
         else {
-            System.out.println("Invalid Model.Customer Name");
+            this.customerName = customerName;
         }
     }
 
@@ -34,11 +34,13 @@ public class Order {
             this.totalAmount = totalAmount;
         }
         else {
-            System.out.println("Invalid Total Amount");
-        }
+            throw new IllegalArgumentException("Total amount must be greater than zero");        }
     }
 
     public void setStatus(String status) {
+        if(status != null) {
+            throw new IllegalArgumentException("Status cannot be empty");
+        }
         this.status = status;
     }
 

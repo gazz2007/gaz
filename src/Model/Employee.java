@@ -9,12 +9,12 @@ public class Employee implements Upgradable {
     private int employeeWorkExperience;
 
     public Employee(String employeeName, int employeeID, int employeeAge, int employeeSalary, String employeeEmail, int employeeWorkExperience) {
-        this.employeeName = employeeName;
-        this.employeeID=employeeID;
-        this.employeeAge = employeeAge;
-        this.employeeSalary = employeeSalary;
-        this.employeeEmail = employeeEmail;
-        this.employeeWorkExperience=employeeWorkExperience;
+        setEmployeeName(employeeName);
+        setEmployeeID(employeeID);
+        setEmployeeAge(employeeAge);
+        setEmployeeSalary(employeeSalary);
+        setEmployeeEmail(employeeEmail);
+        setEmployeeWorkExperience(employeeWorkExperience);
     }
 
     public Employee() {
@@ -68,21 +68,30 @@ public class Employee implements Upgradable {
     }
 
     public void setEmployeeSalary(int employeeSalary) {
+        if (employeeSalary <= 0) {
+            throw new IllegalArgumentException("Salary must be positive");
+        }
         this.employeeSalary = employeeSalary;
     }
-
     public void setEmployeeAge(int employeeAge) {
+        if (employeeAge < 18) {
+            throw new IllegalArgumentException("Employee must be at least 18 years old");
+        }
         this.employeeAge = employeeAge;
     }
-
     public void setEmployeeID(int employeeID) {
+        if (employeeID <= 0) {
+            throw new IllegalArgumentException("Salary must be positive");
+        }
         this.employeeID = employeeID;
     }
 
     public void setEmployeeName(String employeeName) {
+        if (employeeName == null || employeeName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
         this.employeeName = employeeName;
-    }
-    public double AnnualEmployeeSalary(){
+    }    public double AnnualEmployeeSalary(){
         return employeeSalary*12;
     }
     public boolean isEligibleForPromotion(){

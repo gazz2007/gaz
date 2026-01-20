@@ -14,14 +14,23 @@ public class Customer {
     }
 
     public void setCustomerId(int customerId) {
+        if(customerId < 0){
+            throw new IllegalArgumentException("Customer Id can't be negative");
+        }
         this.customerId = customerId;
     }
 
     public void setName(String name) {
+        if(name == null || name.isEmpty()){
+            throw new IllegalArgumentException("Customer Name can't be null or empty");
+        }
         this.name = name;
     }
 
     public void setPhoneNumber(String phoneNumber) {
+        if(phoneNumber == null || phoneNumber.isEmpty()){
+            throw new IllegalArgumentException("Customer Phone Number can't be null or empty");
+        }
         this.phoneNumber = phoneNumber;
     }
 

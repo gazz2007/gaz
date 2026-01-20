@@ -18,14 +18,17 @@ public class FreshProduct extends Product {
 
         return isOrganicProduct;
     }
-
     public void setRipe(boolean isRipe) {
-
+        if (!isRipe) {
+            throw new IllegalArgumentException("Fresh product must be ripe");
+        }
         this.isRipe = isRipe;
     }
 
     public void setOrganicProduct(boolean isOrganicProduct) {
-
+        if (!isOrganicProduct) {
+            throw new IllegalArgumentException("Fresh product must be organic");
+        }
         this.isOrganicProduct = isOrganicProduct;
     }
     @Override

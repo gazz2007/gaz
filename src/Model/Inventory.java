@@ -55,22 +55,37 @@ public class Inventory {
     }
 
     public void setQuantity(int quantity) {
+        if(quantity <0) {
+            throw new IllegalArgumentException("Quantity must be greater than zero");
+        }
         this.quantity = quantity;
     }
 
     public void setStorageName(String storageName) {
+        if(storageName == null || storageName.trim().isEmpty()){
+            throw new IllegalArgumentException("Storage name cannot be empty");
+        }
         this.storageName = storageName;
     }
 
     public void setStorageTemperature(int storageTemperature) {
+        if(storageTemperature < -100 && storageTemperature > 100) {
+            throw new IllegalArgumentException("Impossible storage temperature");
+        }
         this.storageTemperature = storageTemperature;
     }
 
     public void setCurrentStock(int currentStock) {
+        if(currentStock<0){
+            throw new IllegalArgumentException("Current stock must be greater than zero");
+        }
         this.currentStock = currentStock;
     }
 
     public void setMaxCapacity(int maxCapacity) {
+        if(maxCapacity<0){
+            throw new IllegalArgumentException("Max capacity must be greater than zero");
+        }
         this.maxCapacity = maxCapacity;
     }
     public boolean checkMaxCapacity() {

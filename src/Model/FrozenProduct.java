@@ -16,10 +16,15 @@ public class FrozenProduct extends Product {
         return isFrozen;
     }
     public void setTemperature(int temperature) {
+        if (temperature > 0) {
+            throw new IllegalArgumentException("Frozen product temperature must be below zero");
+        }
         this.temperature = temperature;
     }
-
     public void setFrozen(boolean isFrozen) {
+        if (!isFrozen) {
+            throw new IllegalArgumentException("Product must be frozen");
+        }
         this.isFrozen = isFrozen;
     }
     @Override
