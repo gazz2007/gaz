@@ -4,7 +4,6 @@ import Model.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
 public class ShopMenu implements Menu {
     private static ArrayList<Product> products = new ArrayList<>();
     private static ArrayList<Employee> employees = new ArrayList<>();
@@ -26,7 +25,7 @@ public class ShopMenu implements Menu {
             System.out.println("Error initializing data: " + e.getMessage());
         }
     }
-
+    @Override
     public void displayMenu() {
         System.out.println("\n========================================");
         System.out.println(" GROCERY MANAGEMENT SYSTEM");
@@ -37,7 +36,7 @@ public class ShopMenu implements Menu {
         System.out.println("4. View FreshProducts");
         System.out.println("5. View All Products (Polymorphic)");
         System.out.println("6. View All Products Status ");
-        System.out.println("7. Add Model.Customer");
+        System.out.println("7. Add Customer");
         System.out.println("8. View All Customers");
         System.out.println("9. Add Model.Employee");
         System.out.println("10. View All Employees");
