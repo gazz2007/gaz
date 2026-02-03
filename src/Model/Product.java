@@ -6,17 +6,27 @@ public abstract class Product {
         protected int barcode;
         protected String brand;
         protected int daysLeft;
+        protected int product_id;
 
-        public Product(String name, int price, int quantity, int barcode, String brand, int daysLeft) {
+        public Product(String name, int price, int quantity, int barcode, String brand, int daysLeft,int product_id) {
             setName(name);
             setPrice(price);
             setQuantity(quantity);
             this.barcode = barcode;
             this.brand = brand;
             this.daysLeft = daysLeft;
+            this.product_id = product_id;
         }
 
-        public Product() {
+    public int getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
+    }
+
+    public Product() {
             this.name = "Unknown";
             this.price = 0;
             this.quantity = 0;
@@ -25,7 +35,12 @@ public abstract class Product {
             this.daysLeft = 0;
         }
 
-        public void setDaysLeft(int daysLeft) {
+    public Product(int id, String name, int price) {
+    }
+
+
+
+    public void setDaysLeft(int daysLeft) {
             if (daysLeft < 0){
                 throw new IllegalArgumentException("Days left can't be negative");}
             else{

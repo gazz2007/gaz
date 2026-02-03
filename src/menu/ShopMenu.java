@@ -1,29 +1,26 @@
 package menu;
 
-import Model.*;
 
-import java.util.ArrayList;
+import Model.*;
+import database.ProductDAO;
+
+import java.util.List;
 import java.util.Scanner;
 public class ShopMenu implements Menu {
-    private static ArrayList<Product> products = new ArrayList<>();
-    private static ArrayList<Employee> employees = new ArrayList<>();
-    private static ArrayList<Customer> customers = new ArrayList<>();
-    private static ArrayList<Product> Allproducts = new ArrayList<>();
-    private static Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner;
+    private ProductDAO productDAO;
 
     public ShopMenu() {
-        this.products = new ArrayList<>();
-        this.employees = new ArrayList<>();
-        this.customers = new ArrayList<>();
-        this.Allproducts = new ArrayList<>();
-        try {
-            Allproducts.add(new FrozenProduct("Pineapple", 150, 12, 24242442, "astrothunder", 12, -12, true));
-            Allproducts.add(new FreshProduct("Cow meat", 30000, 5, 2464646, "AqtobeMalBazary", 45, true, true));
-            employees.add(new Employee("Gaziz", 2424, 18, 1000, "gazomazo@gmail.com", 3));
-            customers.add(new Customer(12313, "Akzhan", "8700021", 32));
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error initializing data: " + e.getMessage());
-        }
+        this.scanner = new Scanner(System.in);
+        this.productDAO = new ProductDAO();
+
+        System.out.println("\n╔════════════════════════════════════════╗");
+        System.out.println("║  RESTAURANT MANAGEMENT SYSTEM v2.0    ║");
+        System.out.println("║  Week 8: Fully Database-Driven 🗄️     ║");
+        System.out.println("╚════════════════════════════════════════╝");
+        System.out.println("✅ All data is stored in PostgreSQL");
+        System.out.println("✅ No in-memory ArrayLists");
+        System.out.println("✅ Complete CRUD operations");
     }
     @Override
     public void displayMenu() {
@@ -36,15 +33,15 @@ public class ShopMenu implements Menu {
         System.out.println("4. View FreshProducts");
         System.out.println("5. View All Products (Polymorphic)");
         System.out.println("6. View All Products Status ");
-        System.out.println("7. Add Customer");
-        System.out.println("8. View All Customers");
-        System.out.println("9. Add Model.Employee");
-        System.out.println("10. View All Employees");
+        System.out.println("7. Update Product");
+        System.out.println("8. Delete Product");
+        System.out.println("9. Search Product");
+        System.out.println("10.Search by Price");
+        System.out.println("11.Search by Min Price");
         System.out.println("0. Exit");
         System.out.println("========================================");
         System.out.print("Enter your choice: ");
     }
-
     @Override
     public void run() {
         boolean running = true;
@@ -74,16 +71,19 @@ public class ShopMenu implements Menu {
                         viewProductStatus();
                         break;
                     case 7:
-                        addCustomer();
+                        updateProduct();
                         break;
                     case 8:
-                        viewAllCustomers();
+                        deleteProduct();
                         break;
                     case 9:
-                        addEmployee();
+                        searchByName();
                         break;
                     case 10:
-                        viewAllEmployees();
+                        searchByPriceRange();
+                        break;
+                    case 11:
+                        searchByMinPrice();
                         break;
                     case 0:
                         System.out.println("\nGoodbye");
@@ -107,76 +107,56 @@ public class ShopMenu implements Menu {
         scanner.close();
     }
 
-    private static void viewAllProducts() {
-        System.out.println("\n========================================");
-        System.out.println(" ALL Products (POLYMORPHIC LIST)");
-        System.out.println("========================================");
-        if (Allproducts.isEmpty()) {
-            System.out.println("No  Products found❌.");
-            return;
-        }
-        System.out.println("Total products: " + Allproducts.size());
-        System.out.println();
-        for (int i = 0; i < Allproducts.size(); i++) {
-            Product s = Allproducts.get(i);
-            System.out.println((i + 1) + ". " + s);
-            if (s instanceof FrozenProduct) {
-                FrozenProduct frozenProduct = (FrozenProduct) s;
-                System.out.println("|Did it freeze? : " + frozenProduct.getFrozen() + "|  |temperature: " + frozenProduct.getTemperature() + "C\uD83C\uDF21\uFE0F|");
-                if (frozenProduct.checkTemp()) {
-                    System.out.println("Enough temperature✅ ");
-                }
-            } else if (s instanceof FreshProduct) {
-                FreshProduct freshProduct = (FreshProduct) s;
-                System.out.println("|Days left: " + freshProduct.getDaysLeft() + "⏳ | is it Fresh?: " + freshProduct.isRipe() + "|");
-                if (freshProduct.isOrganicProduct()) {
-                    System.out.println("100% Natural✅");
-                }
-            }
-            System.out.println();
-        }
+    private void viewAllProducts() {
+        productDAO.displayAllProduct();
     }
-    private static void addFrozenProduct() {
-        try {
-            System.out.println("ADD FROZENPRODUCTS");
-            System.out.println("name of the product: ");
+    private static void addFrozenProduct(){
+        try{
+            System.out.println("enter the name of the product: ");
             String name = scanner.nextLine();
-            System.out.println("price of the product: ");
+            System.out.println("enter the price of the product: ");
             int price = scanner.nextInt();
             scanner.nextLine();
-            System.out.println("barcode of the product: ");
-            int barcode = scanner.nextInt();
-            scanner.nextLine();
-            System.out.println("How much days left: ");
-            int daysLeft = scanner.nextInt();
-            scanner.nextLine();
-            System.out.println("Brand of the product: ");
-            String brand = scanner.nextLine();
-            System.out.println("Quantity of the product: ");
+            System.out.println("enter the quantity of the product: ");
             int quantity = scanner.nextInt();
             scanner.nextLine();
-            System.out.println("temperature of the product: ");
+            System.out.println("enter the barcode of the product: ");
+            int barcode = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println("enter the brand of the product: ");
+            String brand = scanner.nextLine();
+            System.out.println("enter the daysLeft of the product: ");
+            int daysLeft = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println("enter the temperature of the product: ");
             int temperature = scanner.nextInt();
             scanner.nextLine();
-            System.out.println("Validation of Frozen product: ");
+            System.out.println("enter the Validation of the product: ");
             boolean isFrozen = scanner.nextBoolean();
             scanner.nextLine();
-            FrozenProduct frozenProduct = new FrozenProduct(name, price, quantity, barcode, brand, daysLeft, temperature, isFrozen);
-            Allproducts.add(frozenProduct);
-            System.out.println("Frozen Model.Product added successfully✅");
-        }catch(java.util.InputMismatchException e){
-            System.out.println("Please enter a valid number");
+            System.out.println("enter the id of  the Frozen product: ");
+            int product_id = scanner.nextInt();
             scanner.nextLine();
-        }catch(IllegalArgumentException e){
-            System.out.println("Validation Error"+e.getMessage());
+            FrozenProduct frozenproduct=new FrozenProduct(name,price,quantity,barcode, brand, daysLeft, temperature, isFrozen,product_id);
+            ProductDAO dao = new ProductDAO();
+            dao.insertFrozenProduct(frozenproduct);
+        }
+        catch(java.util.InputMismatchException e){
+            System.out.println("Please enter the name of the product: ");
+            scanner.nextLine();
+        }
+        catch(IllegalArgumentException e){
+            System.out.println("Error: " + e.getMessage());
         }
     }
     private static void viewFrozenProducts() {
         System.out.println("\n========================================");
         System.out.println(" FROZEN PRODUCTS ONLY");
         System.out.println("========================================");
+        ProductDAO dao = new ProductDAO();
+        List<FrozenProduct> frozenProducts = dao.getAllFrozenProducts();
         int FRPcount = 0;
-        for (Product s : Allproducts) {
+        for (Product s : frozenProducts) {
             if (s instanceof FrozenProduct) {
                 FrozenProduct item = (FrozenProduct) s;
                 FRPcount++;
@@ -222,8 +202,11 @@ public class ShopMenu implements Menu {
             scanner.nextLine();
             System.out.println("Organicness of the product: ");
             boolean isOrganicProduct = scanner.nextBoolean();
-            FreshProduct freshProduct = new FreshProduct(name, price, quantity, barcode, brand, daysLeft, isRipe, isOrganicProduct);
-            Allproducts.add(freshProduct);
+            System.out.println("enter the id of the Fresh product: ");
+            int product_id = scanner.nextInt();
+            FreshProduct freshProduct = new FreshProduct(name, price, quantity, barcode, brand, daysLeft, isRipe, isOrganicProduct,product_id);
+            ProductDAO dao = new ProductDAO();
+            dao.insertFreshProduct(freshProduct);
             System.out.println("Fresh Model.Product added successfully✅");
         }
         catch(java.util.InputMismatchException e){
@@ -237,8 +220,10 @@ public class ShopMenu implements Menu {
         System.out.println("\n========================================");
         System.out.println(" FRESH PRODUCTS ONLY");
         System.out.println("========================================");
+        ProductDAO dao = new ProductDAO();
+        List<FreshProduct> freshProducts = dao.getAllFreshProducts();
         int FRPcount = 0;
-        for (Product s : Allproducts) {
+        for (Product s : freshProducts) {
             if (s instanceof FreshProduct) {
                 FreshProduct item = (FreshProduct) s;
                 FRPcount++;
@@ -258,116 +243,215 @@ public class ShopMenu implements Menu {
 
     }
     private static void viewProductStatus(){
-        System.out.println("\n========================================");
-        System.out.println(" POLYMORPHISM DEMONSTRATION");
-        System.out.println("========================================");
-        System.out.println("Calling Productname() and ProductVerification on all Products:");
-        System.out.println();
-        for (Product s : Allproducts) {
-            s.productVerification();
-            s.productName();
-            System.out.println("----------------------------------------");
-        }
-        System.out.println();
-
+        ProductDAO dao = new ProductDAO();
+        dao.ProductStatus();
     }
-    private static void addCustomer() {
+
+    private void updateProduct() {
+        System.out.println("\n┌─ UPDATE Product ─────────────────────────┐");
+        System.out.print("│ Enter Product product id to update: ");
+
         try {
-            System.out.println("ADD CUSTOMER");
-
-            System.out.println("id of the customer: ");
-            int customerId = scanner.nextInt();
+            int product_id = scanner.nextInt();
             scanner.nextLine();
 
-            System.out.println("name of the customer: ");
-            String name = scanner.nextLine();
+            // First, get existing Product from database
+            ProductDAO dao = new ProductDAO();
+            Product existingProduct=dao.getProductById(product_id);
 
-            System.out.println("phone number of the customer: ");
-            String phoneNumber = scanner.nextLine();
+            if (existingProduct == null) {
+                System.out.println("❌ No Product found with ID: " + product_id);
+                return;
+            }
 
-            System.out.println("loyalty points of the customer: ");
-            int loyaltyPoints = scanner.nextInt();
-            scanner.nextLine();
+            // Display current info
+            System.out.println("│ Current Info:");
+            System.out.println("│ " + existingProduct.toString());
+            System.out.println("└────────────────────────────────────────┘");
 
-            Customer customer = new Customer(customerId, name, phoneNumber, loyaltyPoints);
-            customers.add(customer);
+            // Get new values
+            System.out.println("\n┌─ ENTER NEW VALUES ─────────────────────┐");
+            System.out.println("│ (Press Enter to keep current value)   │");
 
-            System.out.println("Model.Customer added successfully✅");
-        }catch(java.util.InputMismatchException e){
-            System.out.println("Please enter a valid number");
-            scanner.nextLine();
-        }catch(IllegalArgumentException e){
-            System.out.println("Validation Error"+e.getMessage());
+            System.out.print("│ New Name [" + existingProduct.getName() + "]: ");
+            String newName = scanner.nextLine();
+            if (newName.trim().isEmpty()) {
+                newName = existingProduct.getName();
+            }
+
+            System.out.print("│ New Price [" + existingProduct.getPrice() + "]: ");
+            String priceInput = scanner.nextLine();
+            int newPrice = priceInput.trim().isEmpty() ?
+                    existingProduct.getPrice() : Integer.parseInt(priceInput);
+
+            System.out.print("│ New Quantity [" + existingProduct.getQuantity() + "]: ");
+            String quantityInput = scanner.nextLine();
+            int newQuantity = quantityInput.trim().isEmpty() ?
+                    existingProduct.getQuantity() : Integer.parseInt(quantityInput);
+
+            System.out.println("│ New barcode ["+existingProduct.getBarcode()+"]");
+            String  barcodeInput = scanner.nextLine();
+            int newBarcode = barcodeInput.trim().isEmpty() ?
+                    existingProduct.getBarcode() : Integer.parseInt(barcodeInput);
+
+
+            System.out.print("│ New Brand [" + existingProduct.getBrand() + "]: ");
+            String newBrand = scanner.nextLine();
+            if (newBrand.trim().isEmpty()) {
+                newBrand = existingProduct.getBrand();
+            }
+
+            System.out.print("│ New daysLeft [" + existingProduct.getDaysLeft() + "]: ");
+            String DaysLeftInput = scanner.nextLine();
+            int newDaysLeft = DaysLeftInput.trim().isEmpty() ?
+                    existingProduct.getDaysLeft() : Integer.parseInt(DaysLeftInput);
+
+
+            // Update based on type
+            if (existingProduct instanceof FrozenProduct) {
+                FrozenProduct frozenProduct = (FrozenProduct) existingProduct;
+
+                System.out.print("│ New temperature [" + frozenProduct.getTemperature() + "]: ");
+                String TempInput = scanner.nextLine();
+                int newTemp = TempInput.trim().isEmpty() ?
+                        frozenProduct.getTemperature() : Integer.parseInt(TempInput);
+
+                System.out.println("│ New isFrozen state [" + frozenProduct.isFrozen() + "]");
+                String IsFrozenInput = scanner.nextLine();
+                Boolean newIsFrozen = IsFrozenInput.trim().isEmpty() ?
+                        frozenProduct.isFrozen() : Boolean.parseBoolean(IsFrozenInput);
+                System.out.println("│ New  ID ["+ frozenProduct.getProduct_id());
+                String  IDInput = scanner.nextLine();
+                int newIdInput = IDInput.trim().isEmpty() ?
+                        frozenProduct.getProduct_id() : Integer.parseInt(IDInput);
+                FrozenProduct updatedFrozenProduct = new FrozenProduct(newName, newPrice, newQuantity, newBarcode,newBrand,newDaysLeft,newTemp,newIsFrozen,newIdInput);
+                dao.updateFrozenProduct(updatedFrozenProduct);
+            }else if (existingProduct instanceof FreshProduct) {
+                FreshProduct freshProduct = (FreshProduct) existingProduct;
+                System.out.print("│ New IsRipe state [" + freshProduct.isRipe() + "]: ");
+                String isRipeInput = scanner.nextLine();
+                boolean newIsRipe = isRipeInput.trim().isEmpty()
+                        ? freshProduct.isRipe()
+                        : Boolean.parseBoolean(isRipeInput);
+
+                System.out.println("│ New isOrganicProduct state [" +  freshProduct.isOrganicProduct() + "]");
+                String isOrganicProductInput = scanner.nextLine();
+                boolean newIsOrganicProduct = isRipeInput.trim().isEmpty()
+                        ? freshProduct.isOrganicProduct()
+                        : Boolean.parseBoolean(isOrganicProductInput);
+                System.out.println("│ New  ID ["+ freshProduct.getProduct_id());
+                String  IDInput = scanner.nextLine();
+                int newIdInput = IDInput.trim().isEmpty() ?
+                        freshProduct.getProduct_id() : Integer.parseInt(IDInput);
+
+
+                FreshProduct updatedFreshProduct = new FreshProduct(newName, newPrice, newQuantity, newBarcode,newBrand,newDaysLeft,newIsRipe,newIsOrganicProduct,newIdInput);
+                dao.updateFreshProduct(updatedFreshProduct);
+            }
+
+            System.out.println("└────────────────────────────────────────┘");
+
+        } catch (NumberFormatException e) {
+            System.out.println("❌ Error: Invalid number format!");
+        } catch (IllegalArgumentException e) {
+            System.out.println("❌ Validation Error: " + e.getMessage());
         }
     }
-    private static void viewAllCustomers() {
-        System.out.println("\n========================================");
-        System.out.println(" ALL CUSTOMERS");
-        System.out.println("========================================");
-        // Check if list is empty
-        if (customers.isEmpty()) {
-            System.out.println("No menu items found.❌");
-            return; // Exit method early
+    private void deleteProduct() {
+        System.out.print("Enter Staff ID to delete: ");
+        int product_id = scanner.nextInt();
+        scanner.nextLine();
+        // 1. First, load and show who will be deleted
+        ProductDAO dao = new ProductDAO();
+        Product product = dao.getProductById(product_id);
+        if (product == null) {
+            System.out.println(" ❌No staff found with ID: " + product_id);
+            return;
         }
-        System.out.println("Total items: " + customers.size());
-        System.out.println();
-        for (int i = 0; i < customers.size(); i++) {
-            Customer item = customers.get(i); // Get item at index i
-            System.out.println((i + 1) + ". " + item.getName() + " The loyalty points: "+" - "+ item.getLoyaltyPoints());
-            System.out.println(" VIP Category? : " + item.isVIP());
-            System.out.println();
+        // 2. Display staff details
+        System.out.println("Staff to delete:");
+        System.out.println(product.toString());
+        // 3. Ask for confirmation
+        System.out.print("⚠\uFE0FAre you sure? (yes/no): ");
+        String confirmation = scanner.nextLine();
+        // 4. Delete only if confirmed
+        if (confirmation.equalsIgnoreCase("yes")) {
+            dao.deleteProduct(product_id);
+        } else {
+            System.out.println(" ❌Deletion cancelled.");
         }
     }
-    private static void addEmployee() {
+    private void searchByName() {
+        System.out.println("\n┌─ SEARCH BY NAME ───────────────────────┐");
+        System.out.print("│ Enter name to search: ");
+        String name = scanner.nextLine();
+        System.out.println("└────────────────────────────────────────┘");
+        ProductDAO dao = new ProductDAO();
+        List<Product> results = dao.searchByName(name);
+
+        displaySearchResults(results, "Search: '" + name + "'");
+    }
+    private void displaySearchResults(List<Product> results, String criteria) {
+        System.out.println("\n╔════════════════════════════════════════╗");
+        System.out.println("║         SEARCH RESULTS                ║");
+        System.out.println("╚════════════════════════════════════════╝");
+        System.out.println("Criteria: " + criteria);
+        System.out.println("─────────────────────────────────────────");
+
+        if (results.isEmpty()) {
+            System.out.println("📭 No product found matching criteria.");
+        } else {
+            for (int i = 0; i < results.size(); i++) {
+                Product s = results.get(i);
+                System.out.print((i + 1) + ". ");
+                System.out.print("[" + s.getProductType() + "] ");
+                System.out.println(s.toString());
+            }
+            System.out.println("─────────────────────────────────────────");
+            System.out.println("Total Results: " + results.size());
+        }
+    }
+    private void searchByPriceRange() {
         try {
-            System.out.println("ADD EMPLOYEE");
-            System.out.println("name of the employee: ");
-            String employeeName = scanner.nextLine();
+            System.out.println("\n┌─ SEARCH BY Price RANGE ───────────────┐");
+            System.out.print("│ Enter minimum price: ");
+            double minSalary = scanner.nextDouble();
 
-            System.out.println("id of the employee: ");
-            int employeeId = scanner.nextInt();
+            System.out.print("│ Enter maximum salary: ");
+            double maxSalary = scanner.nextDouble();
             scanner.nextLine();
+            System.out.println("└────────────────────────────────────────┘");
+            ProductDAO dao = new ProductDAO();
 
-            System.out.println("age of the employee: ");
-            int employeeAge = scanner.nextInt();
+            List<Product> results = dao.searchByPriceRange(minSalary, maxSalary);
+
+            displaySearchResults(results, "Salary: " + minSalary + " - " + maxSalary + " KZT");
+
+        } catch (java.util.InputMismatchException e) {
+            System.out.println("❌ Error: Invalid number!");
             scanner.nextLine();
-
-            System.out.println("salary of the employee: ");
-            int employeeSalary = scanner.nextInt();
-            scanner.nextLine();
-
-            System.out.println("email of the employee: ");
-            String employeeEmail = scanner.nextLine();
-
-            System.out.println("work experience of the employee: ");
-            int employeeWorkExperience = scanner.nextInt();
-            scanner.nextLine();
-
-            Employee employee = new Employee(employeeName, employeeId, employeeAge, employeeSalary, employeeEmail, employeeWorkExperience);
-            employees.add(employee);
-            System.out.println("Model.Employee added successfully✅");
-        }catch(java.util.InputMismatchException e){
-            System.out.println("Please enter a valid number");
-            scanner.nextLine();
-        }catch(IllegalArgumentException e){
-            System.out.println("Validation Error"+e.getMessage());
         }
     }
-    private static void viewAllEmployees() {
-        System.out.println("\n========================================");
-        System.out.println(" ALL Employers");
-        System.out.println("========================================");
-        if (employees.isEmpty()) {
-            System.out.println("No menu items found.");
-            return; // Exit method early
-        }
-        System.out.println("Total items: " + employees.size());
-        System.out.println();
-        for (int i = 0; i < employees.size(); i++) {
-            Employee item = employees.get(i); // Get item at index i
-            System.out.println((i + 1) + ". " + item.getEmployeeName() + " Annual Salary " + " - " + item.AnnualEmployeeSalary());
-            System.out.println("Does he deserve promotion?: " + item.isEligibleForPromotion());
-            System.out.println();
+    private void searchByMinPrice() {
+        try {
+            System.out.println("\n┌─ HIGH-PAID STAFF ──────────────────────┐");
+            System.out.print("│ Enter minimum salary: ");
+            double minPrice = scanner.nextDouble();
+            scanner.nextLine();
+            System.out.println("└────────────────────────────────────────┘");
+            ProductDAO dao = new ProductDAO();
+
+            List<Product> results = dao.searchByMinPrice(minPrice);
+
+            displaySearchResults(results, "Salary >= " + minPrice + " KZT");
+
+        } catch (java.util.InputMismatchException e) {
+            System.out.println("❌ Error: Invalid number!");
+            scanner.nextLine();
         }
     }
+
+
+
+
 }

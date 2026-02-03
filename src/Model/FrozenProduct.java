@@ -3,11 +3,12 @@ package Model;
 public class FrozenProduct extends Product {
     private int temperature;
     private boolean isFrozen;
-    public FrozenProduct(String name, int price, int quantity, int barcode, String brand, int daysLeft,int temperature, boolean isFrozen) {
-        super(name, price, quantity, barcode, brand, daysLeft);
+    public FrozenProduct(String name, int price, int quantity, int barcode, String brand, int daysLeft,int temperature, boolean isFrozen,int product_id) {
+        super(name, price, quantity, barcode, brand, daysLeft, product_id);
         this.temperature=temperature;
         this.isFrozen=isFrozen;
     }
+
 
     public int getTemperature() {
         return temperature;
@@ -67,5 +68,12 @@ public class FrozenProduct extends Product {
         else{
             return true;
         }
+    }
+    @Override
+    public String toString() {
+        return "Product{name='" + getName() + "', price=" + getPrice() +
+                ", quantity=" + getQuantity() + ", barcode=" + getBarcode() +
+                ", brand='" + getBrand() + "', daysLeft=" + getDaysLeft() +
+                ", temperature=" + getTemperature() + ", isFrozen=" + isFrozen() + "}";
     }
 }

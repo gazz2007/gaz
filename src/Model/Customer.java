@@ -1,12 +1,16 @@
 package Model;
 
 public class Customer {
+    protected String gender;
+    protected int money_spent;
     protected int customerId;
     protected String name;
     protected String phoneNumber;
     protected int loyaltyPoints;
 
     public Customer(int customerId, String name, String phoneNumber, int loyaltyPoints) {
+        this.gender=gender;
+        this.money_spent = money_spent;
         this.customerId = customerId;
         this.name = name;
         this.phoneNumber = phoneNumber;
@@ -40,6 +44,22 @@ public class Customer {
         } else {
             this.loyaltyPoints = 0;
         }
+    }
+
+    public void setMoney_spent(int money_spent) {
+        this.money_spent = money_spent;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public int getMoney_spent() {
+        return money_spent;
     }
 
     public int getCustomerId() {

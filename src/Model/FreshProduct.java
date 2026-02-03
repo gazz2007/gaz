@@ -4,11 +4,12 @@ public class FreshProduct extends Product {
     private boolean isRipe;
     private boolean isOrganicProduct;
 
-    public FreshProduct(String name, int price, int quantity, int barcode, String brand, int daysLeft, boolean isRipe, boolean isOrganicProduct) {
-        super(name, price, quantity, barcode, brand, daysLeft);
+    public FreshProduct(String name, int price, int quantity, int barcode, String brand, int daysLeft, boolean isRipe, boolean isOrganicProduct,int product_id) {
+        super(name,price,quantity,barcode,brand,daysLeft,product_id);
         this.isRipe = isRipe;
         this.isOrganicProduct = isOrganicProduct;
     }
+
 
     public Boolean getRipe() {
         return isRipe;
@@ -64,5 +65,12 @@ public class FreshProduct extends Product {
     }
     public boolean isOrganicProduct() {
         return isOrganicProduct;
+    }
+    @Override
+    public String toString() {
+        return "Product{name='" + getName() + "', price=" + getPrice() +
+                ", quantity=" + getQuantity() + ", barcode=" + getBarcode() +
+                ", brand='" + getBrand() + "', daysLeft=" + getDaysLeft() +
+                ", isRipe=" + isRipe() + ", isOrganicProduct=" + isOrganicProduct() + "}";
     }
 }
