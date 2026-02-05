@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 public class ShopMenu implements Menu {
     private static Scanner scanner;
-    private ProductDAO productDAO;
+    private static ProductDAO productDAO = new  ProductDAO();
 
     public ShopMenu() {
         this.scanner = new Scanner(System.in);
@@ -153,8 +153,8 @@ public class ShopMenu implements Menu {
         System.out.println("\n========================================");
         System.out.println(" FROZEN PRODUCTS ONLY");
         System.out.println("========================================");
-        ProductDAO dao = new ProductDAO();
-        List<FrozenProduct> frozenProducts = dao.getAllFrozenProducts();
+        //ProductDAO dao = new ProductDAO();
+        List<FrozenProduct> frozenProducts = productDAO.getAllFrozenProducts();
         int FRPcount = 0;
         for (Product s : frozenProducts) {
             if (s instanceof FrozenProduct) {
@@ -358,18 +358,18 @@ public class ShopMenu implements Menu {
         }
     }
     private void deleteProduct() {
-        System.out.print("Enter Staff ID to delete: ");
+        System.out.print("Enter Product ID to delete: ");
         int product_id = scanner.nextInt();
         scanner.nextLine();
         // 1. First, load and show who will be deleted
         ProductDAO dao = new ProductDAO();
         Product product = dao.getProductById(product_id);
         if (product == null) {
-            System.out.println(" ❌No staff found with ID: " + product_id);
+            System.out.println(" ❌No product found with ID: " + product_id);
             return;
         }
         // 2. Display staff details
-        System.out.println("Staff to delete:");
+        System.out.println("Product to delete:");
         System.out.println(product.toString());
         // 3. Ask for confirmation
         System.out.print("⚠\uFE0FAre you sure? (yes/no): ");
@@ -417,7 +417,7 @@ public class ShopMenu implements Menu {
             System.out.print("│ Enter minimum price: ");
             double minSalary = scanner.nextDouble();
 
-            System.out.print("│ Enter maximum salary: ");
+            System.out.print("│ Enter maximum price: ");
             double maxSalary = scanner.nextDouble();
             scanner.nextLine();
             System.out.println("└────────────────────────────────────────┘");
@@ -425,7 +425,7 @@ public class ShopMenu implements Menu {
 
             List<Product> results = dao.searchByPriceRange(minSalary, maxSalary);
 
-            displaySearchResults(results, "Salary: " + minSalary + " - " + maxSalary + " KZT");
+            displaySearchResults(results, "Price: " + minSalary + " - " + maxSalary + " KZT");
 
         } catch (java.util.InputMismatchException e) {
             System.out.println("❌ Error: Invalid number!");
@@ -434,8 +434,8 @@ public class ShopMenu implements Menu {
     }
     private void searchByMinPrice() {
         try {
-            System.out.println("\n┌─ HIGH-PAID STAFF ──────────────────────┐");
-            System.out.print("│ Enter minimum salary: ");
+            System.out.println("\n┌─ HIGH-PRICE ──────────────────────┐");
+            System.out.print("│ Enter minimum price: ");
             double minPrice = scanner.nextDouble();
             scanner.nextLine();
             System.out.println("└────────────────────────────────────────┘");
@@ -443,7 +443,7 @@ public class ShopMenu implements Menu {
 
             List<Product> results = dao.searchByMinPrice(minPrice);
 
-            displaySearchResults(results, "Salary >= " + minPrice + " KZT");
+            displaySearchResults(results, "PRICE >= " + minPrice + " KZT");
 
         } catch (java.util.InputMismatchException e) {
             System.out.println("❌ Error: Invalid number!");

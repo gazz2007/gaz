@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ProductDAO {
     public void insertProduct(Product product) {
-        String sql = "INSERT INTO product (name, price, quantity,barcode,brand,daysLeft,product_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO product (name, price, quantity,barcode,brand,days_left,product_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         Connection connection = DatabaseConnection.getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -27,7 +27,7 @@ public class ProductDAO {
             // Execute INSERT
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
-                System.out.println(" Staff inserted successfully!✅");
+                System.out.println(" Product inserted successfully!✅");
             }
             statement.close();
         } catch (SQLException e) {
@@ -139,7 +139,7 @@ public class ProductDAO {
         System.out.println("========================================");
 
         if (ProductList.isEmpty()) {
-            System.out.println("No product members in database.");
+            System.out.println("No product  in database.");
         } else {
             for (int i = 0; i < ProductList.size(); i++) {
                 Product s = ProductList.get(i);
@@ -171,7 +171,7 @@ public class ProductDAO {
     }
 
     public void insertFrozenProduct(FrozenProduct frozenproduct) {
-        String sql = "INSERT INTO product (name, price, quantity,barcode,brand,daysLeft,product_id,temperature,isFrozen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO product (name, price, quantity,barcode,brand,days_left,product_id,temperature,is_frozen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         Connection connection = DatabaseConnection.getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -188,7 +188,7 @@ public class ProductDAO {
             // Execute INSERT
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
-                System.out.println(" Frozer Product inserted successfully!✅");
+                System.out.println(" Frozen Product inserted successfully!✅");
             }
             statement.close();
         } catch (SQLException e) {
@@ -249,10 +249,10 @@ public class ProductDAO {
             resultSet.close();
             statement.close();
 
-            System.out.println("✅ Retrieved " + frozenproducts.size() + " waiters");
+            System.out.println("✅ Retrieved " + frozenproducts.size() + " frozen products");
 
         } catch (SQLException e) {
-            System.out.println("❌ Select waiters failed!");
+            System.out.println("❌ Select frozen products failed!");
             e.printStackTrace();
         } finally {
             DatabaseConnection.closeConnection(connection);
@@ -370,7 +370,7 @@ public class ProductDAO {
             }
             resultSet.close();
             statement.close();
-            System.out.println("✅ Found " + ProductList.size() + " staff");
+            System.out.println("✅ Found " + ProductList.size() + " product");
         } catch (SQLException e) {
             System.out.println(" ❌Search failed!");
             e.printStackTrace();
